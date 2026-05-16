@@ -1,0 +1,380 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.cursor {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
+}
+
+.wordle-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.wordle-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.wordle-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.5s ease-out;
+}
+
+.wordle-header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.wordle-game {
+    margin-bottom: 30px;
+}
+
+.attempts-left {
+    text-align: center;
+    color: white;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#attemptsLeft {
+    color: #4ade80;
+    font-size: 1.3em;
+}
+
+.guesses {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.guess-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.guess-tile {
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.guess-tile.flip {
+    animation: flip 0.6s ease-in-out;
+}
+
+.guess-tile.correct {
+    background: #4ade80;
+    border-color: #4ade80;
+}
+
+.guess-tile.present {
+    background: #fbbf24;
+    border-color: #fbbf24;
+    color: #000;
+}
+
+.guess-tile.absent {
+    background: #6b7280;
+    border-color: #6b7280;
+    opacity: 0.6;
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateY(0deg);
+    }
+    50% {
+        transform: rotateY(90deg);
+    }
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+.input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#wordInput {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 1.2em;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+#wordInput::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#wordInput:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+#submitBtn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+}
+
+#submitBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.6);
+}
+
+#submitBtn:active {
+    transform: translateY(0px);
+}
+
+.message {
+    text-align: center;
+    color: #fbbf24;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    min-height: 30px;
+    font-weight: bold;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.key {
+    padding: 12px 8px;
+    min-width: 45px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9em;
+}
+
+.key:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.key:active {
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.key.delete,
+.key.enter {
+    min-width: 60px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.success-screen,
+.fail-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.success-screen.hidden,
+.fail-screen.hidden {
+    display: none;
+}
+
+.success-content,
+.fail-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: scaleUp 0.3s ease;
+}
+
+.success-content h2,
+.fail-content h2 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.success-content p,
+.fail-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.success-content button,
+.fail-content button {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 10px;
+    background: #4ade80;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.success-content button:hover,
+.fail-content button:hover {
+    background: #22c55e;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .wordle-container {
+        border-radius: 15px;
+        padding: 15px;
+    }
+
+    .wordle-header h1 {
+        font-size: 1.8em;
+    }
+
+    .guess-tile {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+
+    .key {
+        padding: 10px 6px;
+        min-width: 40px;
+        font-size: 0.8em;
+    }
+
+    #wordInput {
+        font-size: 1em;
+    }
+
+    .success-content,
+    .fail-content {
+        padding: 30px 20px;
+    }
+
+    .success-content h2,
+    .fail-content h2 {
+        font-size: 1.8em;
+    }
+}
